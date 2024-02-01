@@ -12,6 +12,8 @@ LOG=TRACE make run
 ```
 
 # 结构
+├──.cargo
+│   └── config
 ├── bootloader(内核依赖的运行在 M 特权级的 SBI 实现，本项目中我们使用 RustSBI)
 │   └── rustsbi-qemu.bin(可运行在 qemu 虚拟机上的预编译二进制版本)
 ├── LICENSE
