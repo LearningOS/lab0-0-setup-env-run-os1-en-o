@@ -36,6 +36,8 @@ pub fn clear_bss() {
 /// the rust entry-point of os
 #[no_mangle]
 pub fn rust_main() -> ! {
+    // 1. app 运行之前的初始化工作
+    // 1.1 建立栈空间
     extern "C" {
         fn stext(); // begin addr of text segment
         fn etext(); // end addr of text segment
@@ -48,8 +50,13 @@ pub fn rust_main() -> ! {
         fn boot_stack_lower_bound(); // stack lower bound
         fn boot_stack_top(); // stack top
     }
+    // 1.2 bss段清零
     clear_bss();
+
+    // 2. os service
+    // 日志初始化
     logging::init();
+    // 输出字符
     println!("[kernel] Hello, world!");
     trace!(
         "[kernel] .text [{:#x}, {:#x})",
@@ -72,5 +79,6 @@ pub fn rust_main() -> ! {
 
     // CI autotest success: sbi::shutdown(false)
     // CI autotest failed : sbi::shutdown(true)
+    // 关机 shutdown
     sbi::shutdown(false)
 }
